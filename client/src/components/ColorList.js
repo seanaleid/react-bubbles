@@ -7,15 +7,23 @@ const initialColor = {
 };
 
 const ColorList = ({ colors, updateColors }) => {
+  // console.log deconstructed props^^
   console.log(colors);
+  console.log(updateColors);
+
+
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
+  // when deleting, line 20 triggers in the console.log
+  // an idea is to filter through colors and remove editColor
   const editColor = color => {
+    console.log(color)
     setEditing(true);
     setColorToEdit(color);
   };
 
+  // const fetchColorsWithoutDelete =
   const saveEdit = id => {
     // Make a put request to save your updated color
     // think about where will you get the id from...
@@ -26,6 +34,8 @@ const ColorList = ({ colors, updateColors }) => {
       .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
         console.log(res)
+        updateColors(res.data)
+        editColor(updateColors())
       })
       .catch(err => console.log(err.response))
   };
@@ -38,6 +48,8 @@ const ColorList = ({ colors, updateColors }) => {
       .delete(`api/colors/${id}`)
       .then( deleteColor => {
         console.log(deleteColor)
+        let newColorList = colors.filter(id => editColor.id !== id)
+        setColorToEdit(newColorList)
       })
       .catch(err => console.log(`There was an error deleting. ColorList.js`, err))
   };

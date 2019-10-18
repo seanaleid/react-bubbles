@@ -16,13 +16,12 @@ const ColorList = ({ colors, updateColors }) => {
     setColorToEdit(color);
   };
 
-  const saveEdit = e => {
-    e.preventDefault();
+  const saveEdit = id => {
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
 
-    console.log(e)
+    console.log(id)
     axiosWithAuth()
       .put(`/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
